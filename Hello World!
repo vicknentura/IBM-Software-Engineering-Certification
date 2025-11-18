@@ -1,0 +1,81 @@
+C (.c)
+#include <stdio.h>
+
+int main(void) {
+  printf("Hello World!\n");
+  return 0;
+}
+
+gcc -o hello helloworld.c
+./hello
+
+
+Java (.java)
+public class helloworld {
+    public static void main(String s[]){
+        System.out.println("Hello World!");
+    }
+}
+
+javac helloworld.java
+java helloworld
+
+
+Node.js (.js)
+console.log("Hello World!");
+node helloworld.js
+
+
+Go (.go)
+package main
+
+import "fmt"
+func main() {
+    fmt.Println("Hello World!")
+}
+
+go run helloworld.go
+
+
+Ruby (.rb)
+puts "Hello World!";
+
+ruby helloworld.rb
+
+
+PHP (.php)
+<?php
+Print "Hello, World!\n";
+?>
+
+php helloworld.php
+
+
+C++ (.cpp)
+#include <iostream>
+
+int main() {
+  std::cout << "Hello World!\n";
+  return 0;
+}
+
+g++  -o helloworld_cpp helloworld.cpp
+./helloworld_Cpp
+
+
+Perl (.pl)
+print("Hello World\n");
+
+perl helloworld.pl
+
+
+shell script (.sh)
+echo "Hello World!"
+
+sh helloworld.sh
+
+
+HTML (.html)
+<html>
+  Hello World!
+</html>
