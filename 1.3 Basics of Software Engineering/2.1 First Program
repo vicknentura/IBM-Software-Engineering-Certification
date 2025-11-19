@@ -1,0 +1,39 @@
+public class MyFirstProgram { # 
+    public static void main(String s[]) {
+        System.out.println("Hello World!");
+    }
+}
+
+public: is called the Access modifier that defines the access level for the class. In this case, the class can be accessed from anywhere as it is public.
+class: Keyword to declare a new class.
+MyFirstProgram: Name of the class. You will notice that the classname is the same as the filename. This is mandatory in Java.
+static: Keyword indicating the method belongs to the class, but you don't have to create an object of the class to access it. As the word suggests, the method doesn't dynamically change for each instance of the class you create. It stays static or unchanged.
+void: Return type, indicating the method doesn't return any value.
+main: Name of the method. the public static void main method is the entry point for a Java program.
+(String s[]): Method parameter, an array of strings, which represents the command-line arguments.
+System.out: A built-in Java object that represents the standard output stream which is usually the console.
+println: A method of the PrintStream class that prints its argument to the standard output stream, followed by a newline character.
+
+javac MyFirstProgram.java
+ls *.class
+java MyFirstProgram
+
+
+
+# Creaitng a project and organizing in a directory
+mkdir my_first_proj
+
+mkdir -p my_first_proj/src
+mkdir -p my_first_proj/classes
+mkdir -p my_first_proj/test
+cd my_first_proj # project directory name
+
+mv /home/project/MyFirstProgram.java src #move from default to project's src directory
+
+rm /home/project/MyFirstProgram.class #remove the old class file
+
+javac -d classes src/MyFirstProgram.java #compile stating the destination directory
+
+export CLASSPATH=$CLASSPATH:/home/project/my_first_proj/classes
+
+java MyFirstProgram
