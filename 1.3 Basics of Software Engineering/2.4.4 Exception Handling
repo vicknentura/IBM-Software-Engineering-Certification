@@ -1,0 +1,268 @@
+# Structure of exception-handling
+try {
+  // code that may throw an exception
+} catch (ExceptionType e) {
+  // code to handle the exception
+} finally {
+  // code that will always execute
+}
+
+
+# Basic Exception handling
+public class ExceptionExample {
+  public static void main(string[] args) {
+    int numerator = 10;
+    int denominator - 0; // This will cause an ArithmeticException
+    try {
+      int result = numerator / denominatory; // This line may throw an exception
+      System.out.println("Result: " + result);
+    } catch (ArithmeticException e) {
+      System.out.println("Error: Cannot divide by zero.");
+  } finally {
+      System.out.println("This block executes regardless of an exception.");
+    }
+  }
+}
+
+
+# Custom Exception Handling
+class MyCustomException extends Exception {
+  public MyCustomException(String message) {
+    super(messge); // Pass the message to the parent Exception class
+  }
+}
+public class CustomException Example {
+  public static void main(String[] args) {
+  try {
+    throw new MyCustomException("This is a custom exception message.");
+  } catch (MyCustomException e) {
+    System.out.println(e.getMessage());
+    }
+  }
+}
+
+
+# Finally block
+public class FinallyExample {
+  public static void main(String[] args) {
+    try {
+      System.out.println("In try block");
+    } catch (ArithmeticException e) {
+      int result = 10 / 0; // This line will throw an exception
+    } catch (ArithmeticException e) {
+      System.out.println("Caught an exception: " + e.getMessage());
+    } finally {
+  System.out.println("Finally block executed");
+    }
+  }
+}
+
+
+# Correct Usage 1
+public class CorrectFinallyUsage {
+  public static void main(String[] args) {
+    FileReader file = null;
+    try {
+      file = new FileReader("example.txt");
+      // Code to read from the file
+    } catch (IOException e) {
+    System.out.println("Error reading file: " + e.getMessage());
+  }   finally {
+        try {
+          if (file != null) {
+            file.close();
+    System.out.println("File closed successfully.");
+        }
+    } catch (IOException e) {
+        System.out.println("Error closing file: " + e.getMessage());
+      }
+    }
+  }
+
+
+# Correct Usage 2
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+public class DatabaseConnectionCorrectUsage {
+  public static void main(String[] args) {
+    Connection connection = null;
+     try {
+       connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "user", "password");
+       // Perform database operations
+     } catch (SQLException e) {
+         System.out.println("Database error: " + e.getMessage ());
+     } finally {
+   try {
+     if (connection != null) {
+           connection.close();
+           System.out.println("Database connection closed.");
+     }
+   } catch (SQLException e) {
+       System.out.println("Error closing connection: " + e.getMessage());
+   }
+ }
+}
+
+
+# Multiple try-catch
+public class MultipleCatchExample {
+  pubilc static void main(String[] args) {
+    int[] numbers = {1, 2, 3};
+    int index = 5; // Invalid index
+    try {
+      // Trying to access and invalid index
+    System.out.println("Number: " + numbers[index]);
+    // Trying to divide by zero
+   int result = 10 / 0;
+       } catch (ArrayIndexOutOfBoudnsException e) {
+           System.out.println("Error: Index out of bounds.");
+       } catch (ArithmeticException e) {
+           System.out.println("Error: Division by zero.");
+   }
+ }
+}
+
+
+# Throws keyword
+public class ThrowsExample {
+  public static void main(String[] args) {
+    try {
+      readFile("nonexistentfile.txt");
+    } catch (IOException e) {
+      System.out.println("Error: " + e.getMessage());
+    }
+  }
+  // Method that declares an exception
+  static void readFile(String fileName) throws IOException {
+    FileReader file = new FileReader(fileName);
+    BufferedReader fileInput = new BufferedReader(file);
+    // Reading the file
+    System.out.println(fileInput.readLine());
+    fileInput.close();
+  }
+}
+
+
+# Checked Exceptions
+import java.io.File;
+import java.io.FileNotFoudnException;
+import java.util.Scanner;
+public class CheckedExceptionExample {
+  public static void main(String[] args) {
+    try {
+      File myFile = new File("nonexistentfile.txt");
+      Scanner myReader - new Scanner(myFile);
+      while (myReader.hasNextLine()) {
+        String data = myReader.nextLine();
+        System.out.println(data);
+      }
+      myReader.close();
+  } catch (FileNotFoundException e) {
+        System.out.println("An error occurred: " + e.getMessage());
+    }
+  }
+}
+
+# Runtime Exceptions
+public class RuntimeExceptionExample {
+  public static void main(String[] args) {
+    int numerator = 10;
+    int denominator = 0;
+    try {
+      int result = numerator / denominator; // This will cause an ArithmeticException
+      System.out.println("Result: " + result);
+    } catch (ArithmeticException e) {
+          System.out.println("An error occurred: Cannot divide by zero.");
+    }
+  }
+}
+
+
+# Create a user defined exception that ensures that the name is valid.
+import java.util.Scanner;
+
+// Student class implementing Cloneable interface
+class Student implements Cloneable {
+    // Fields
+    private String name;
+    private int age;
+    private String major;
+
+    // Constructor
+    public Student(String name, int age, String major) throws StudentUnderAgeException, InvalidNameException {
+        if (name.matches("^[a-zA-Z' -]+$") == false) {
+            throw new InvalidNameException("Invalid name!");
+        }
+        this.name = name;
+        // Check if the provided age is less than 18
+        if (age < 18) {
+            // If the age is less than 18, throw a StudentUnderAgeException
+            // with a custom error message
+            throw new StudentUnderAgeException("Student age has to be 18 or more");
+        }
+        // If the age is valid (18 or older), set the age field to the provided value
+        this.age = age;
+        this.major = major;
+    }
+
+    // Getter and Setter methods
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+    // Override toString() method to provide a string representation of the object
+    @Override
+    public String toString() {
+        return "Student [name=" + name + ", age=" + age + ", major=" + major + "]";
+    }
+
+    // Override clone() method to support cloning
+    @Override
+    public Student clone() throws CloneNotSupportedException {
+        // Call the clone() method of the Object class
+        return (Student) super.clone();
+    }
+}
+
+public class StudentManagement {
+    public static void main(String[] args) {
+        // Create a Scanner object to read user input
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            System.out.println("Enter student name");
+            String name = scanner.nextLine();
+
+            System.out.println("Enter student age");
+            int age = Integer.parseInt(scanner.nextLine());
+
+            System.out.println("Enter student major");
+            String major = scanner.nextLine();
+
+            // Create a Student object
+            Student student1 = new Student(name, age, major);
+            Student student2 = student1.clone();
+
+            System.out.println("Student: " + student1+ " successfully created!");
+            System.out.println("Student: " + student2+ " successfully cloned!");
+
+        } catch(CloneNotSupportedException cnse) {
+            System.out.println("You can't clone this object!");
+        } catch(InvalidNameException ine) {
+            System.out.println(ine.getMessage());
+        }
+        catch (NumberFormatException nfe) {
+            System.out.println("Age has to be a number");
+        } catch(StudentUnderAgeException suae) {
+            System.out.println(suae.getMessage());
+        }
+    }
+}
