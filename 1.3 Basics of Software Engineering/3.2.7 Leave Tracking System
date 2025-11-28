@@ -1,0 +1,103 @@
+// Inheritance
+// Parent class
+public class LeaveRequest {
+    protected int requestId;
+    protected Employee employee;
+    protected String startDate;
+    protected String endDate;
+    protected String status;
+
+    // Methods and constructors
+    // ...
+}
+
+// Child class
+public class SickLeaveRequest extends LeaveRequest {
+    private boolean medicalCertificateProvided;
+
+    public SickLeaveRequest(int requestId, Employee employee,
+                          String startDate, String endDate,
+                          boolean medicalCertificateProvided) {
+      super(requestId, employee, startDate, endDate, "Sick Leave");
+      this.medicalCertificateProvided = medicalCertificateProvided;
+    }
+
+    // Additional methods specific to sick leave
+    public boolean isMedicalCertificateProvided() {
+        return medicalCertificateProvided'
+    }
+}
+
+// Polymorphism
+// In the parent LeaveRequest class
+public boolean processRequest() {
+    // Basic request processing logic
+    System.out.println("Processing generic leave request...");
+    return true;
+}
+
+// In the SickLeaveRequest class
+@Override
+public boolean processRequest() {
+    if (!medicalCertificateProvided && getDuration() > 2)
+        System.out.println("Sick leave longer than 2 days requires a medical certificate");
+        return false;
+    }
+    System.out.println("Processing sick leave request...");
+    return true;
+}
+
+
+// Interface
+public interface Approvable {
+    boolean approve(String approverName);
+    boolean deny(String approverName, String reason);
+}
+
+// Abstract class
+public abstract class LeaveRequest implements Approvable {
+    // Common fields and methods
+    // ...
+
+    // Abstract method that subclasses must implement
+    public abstract int calculateLeaveDays();
+}
+
+
+// Inner Classes
+public class LeaveRequest {
+    // Other fields and methods
+    // ...
+
+    private ArrayList<StatusChange> statusHistory = new ArrayList<>();
+
+    // Inner class to track status changes
+    public class StatusChange {
+        private String oldStatus;
+        private String newStatus;
+        private String changeDate;
+        private String changedBy;
+
+        public StatusChange(String oldStatus, String newStatus,
+                          String changeDate, String changedBy) {
+            this.oldStatus = oldStatus;
+            this.newStatus = newStatus;
+            this.changeDate = changeDate;
+            this.changedBy = changedBy;
+        }
+
+        // Getters for the fields
+        // ...
+    }
+
+        // Method to change status and record the change
+        public void changeStatus(String newStatus, String changedBy) {
+            String oldStatus = this.status;
+            this.status = newStatus;
+
+            // Create a new status change record
+            StatusChange change = new StatusChange(
+                oldStatus, newStatus, getCurrentDate(), changedBy);
+            statusHistory.add(change);
+        }
+    }
