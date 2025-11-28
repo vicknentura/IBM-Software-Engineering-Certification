@@ -1,0 +1,469 @@
+mkdir my_impl_proj
+
+mkdir -p my_impl_proj/src
+mkdir -p my_impl_proj/classes
+mkdir -p my_impl_proj/test
+cd my_impl_proj
+
+touch /home/project/my_impl_proj/src/ClassWithAbstractMeth.java
+
+javac -d classes src/ClassWithAbstractMeth.java
+
+// ClassWithAbstractMeth.java
+public abstract class ClassWithAbstractMeth {
+    // Removed 'static' and 'private'
+    public abstract int absMeth1(String s);   // must be implemented by subclass
+    public abstract String absMeth2();        // must be implemented by subclass
+
+    public abstract String absMeth3(int num);
+    protected abstract boolean absMeth4(String str);
+    abstract float absMeth5(int num, String str);
+
+    public static void main(String[] args) {
+        System.out.println("This is a class with abstract methods");
+    }
+}
+//
+
+// Animal.java
+public abstract class Animal {
+    private String name;
+    private String food;
+
+    public Animal(String name) {
+        this.name = name;
+    }
+
+    public String sound() {
+        return null;
+    }
+
+    public void setFood(String food) {
+        this.food = food;
+    }
+
+    public String getFood(){
+        return this.food;
+    }
+
+    public String toString() {
+        return name.concat(" says ").concat(sound().concat(" and eats ").concat(food));
+    }
+}
+
+class Dog extends Animal {
+    public Dog(String name) {
+        super(name);
+    }
+    public String sound() {
+        return "Woof";
+    }
+}
+
+class Cat extends Animal {
+    public Cat(String name) {
+        super(name);
+    }
+    public String sound() {
+        return "Meow";
+    }
+}
+
+class Cow extends Animal {
+    public Cow(String name) {
+        super(name);
+    }
+    public String sound() {
+        return "Moo";
+    }
+}
+//
+
+// AnimalFarm.java
+import java.util.Scanner;
+
+public class AnimalFarm {
+    public static void main(String s[]) {
+        Scanner scanner = new Scanner(System.in);
+        Animal[] animals = new Animal[10];
+        int anmlIdx = 0;
+        while(true) {
+            System.out.println(	"Press 1 to view the animals, " +
+                                "\n2 to add animals, "+
+                                "\nany other key to exit");
+            String userAction = scanner.nextLine();
+            if (userAction.equals("1")) {
+                for(int i=0;i<animals.length;i++) {
+                    if(animals[i] != null) {
+                        System.out.println(animals[i]);
+                    }
+                }
+            } else if (userAction.equals("2")) {
+                if(anmlIdx == 10) {
+                    System.out.println("10 animals added already. Cannot add any more animals!");
+                    continue;
+                }
+                System.out.println("Which animal do you want to create? \nPress 1 for dog,"+ 
+                                    "\n2 for cat " +
+                                    "\n3 for cow" );
+                String animalChoice = scanner.nextLine();
+                if (animalChoice.equals("1")) {
+                    System.out.println("Enter the name of the dog");
+                    String dogName = scanner.nextLine();
+                    Animal anmlTmp = new Dog(dogName);
+                    System.out.println("Enter what the dog eats");
+                    String dogFood = scanner.nextLine();
+                    anmlTmp.setFood(dogFood);
+                    animals[anmlIdx++] = anmlTmp;
+                } else if (animalChoice.equals("2")) {
+                    System.out.println("Enter the name of the cat");
+                    String catName = scanner.nextLine();
+                    Animal anmlTmp = new Cat(catName);
+                    System.out.println("Enter what the cat eats");
+                    String catFood = scanner.nextLine();
+                    anmlTmp.setFood(catFood);
+                    animals[anmlIdx++] = anmlTmp;
+                } else if (animalChoice.equals("3")) {
+                    System.out.println("Enter the name of the cow");
+                    String cowName = scanner.nextLine();
+                    Animal anmlTmp = new Cow(cowName);
+                    System.out.println("Enter what the cow eats");
+                    String cowFood = scanner.nextLine();
+                    anmlTmp.setFood(cowFood);
+                    animals[anmlIdx++] = anmlTmp;
+                }
+            } else {
+                break;
+            }
+        }
+    }
+}
+//
+
+// Bulb.java
+// Interface for devices that can be turned on/off
+interface Switchable {
+    void turnOn();
+    void turnOff();
+}
+
+// Interface for devices with adjustable settings
+interface Adjustable {
+    void increase();
+    void decrease();
+}
+
+// Interface for devices that can connect to a network
+interface Connectable {
+    void connect();
+    void disconnect();
+}
+
+// SmartBulb class implementing all three interfaces
+class SmartBulb implements Switchable, Adjustable, Connectable {
+    private boolean isOn = false;
+    private int brightness = 50; // Default brightness level
+    private boolean isConnected = false;
+
+    // Switchable methods
+    @Override
+    public void turnOn() {
+        isOn = true;
+        System.out.println("SmartBulb is turned ON.");
+    }
+
+    @Override
+    public void turnOff() {
+        isOn = false;
+        System.out.println("SmartBulb is turned OFF.");
+    }
+
+    // Adjustable methods
+    @Override
+    public void increase() {
+        if (brightness < 100) {
+            brightness += 10;
+            System.out.println("Brightness increased to " + brightness + "%.");
+        } else {
+            System.out.println("Brightness is already at maximum.");
+        }
+    }
+
+    @Override
+    public void decrease() {
+        if (brightness > 0) {
+            brightness -= 10;
+            System.out.println("Brightness decreased to " + brightness + "%.");
+        } else {
+            System.out.println("Brightness is already at minimum.");
+        }
+    }
+
+    // Connectable methods
+    @Override
+    public void connect() {
+        isConnected = true;
+        System.out.println("SmartBulb is connected to the network.");
+    }
+
+    @Override
+    public void disconnect() {
+        isConnected = false;
+        System.out.println("SmartBulb is disconnected from the network.");
+    }
+}
+
+// DimmableBulb class implementing two interfaces
+class DimmableBulb implements Switchable, Adjustable {
+    private boolean isOn = false;
+    private int brightness = 50; // Default brightness level
+
+    // Switchable methods
+    @Override
+    public void turnOn() {
+        isOn = true;
+        System.out.println("DimmableBulb is turned ON.");
+    }
+
+    @Override
+    public void turnOff() {
+        isOn = false;
+        System.out.println("DimmableBulb is turned OFF.");
+    }
+
+    // Adjustable methods
+    @Override
+    public void increase() {
+        if (brightness < 100) {
+            brightness += 10;
+            System.out.println("Brightness increased to " + brightness + "%.");
+        } else {
+            System.out.println("Brightness is already at maximum.");
+        }
+    }
+
+    @Override
+    public void decrease() {
+        if (brightness > 0) {
+            brightness -= 10;
+            System.out.println("Brightness decreased to " + brightness + "%.");
+        } else {
+            System.out.println("Brightness is already at minimum.");
+        }
+    }
+}
+
+// RegularBulb class implementing one interface
+class RegularBulb implements Switchable {
+    private boolean isOn = false;
+
+    // Switchable methods
+    @Override
+    public void turnOn() {
+        isOn = true;
+        System.out.println("RegularBulb is turned ON.");
+    }
+
+    @Override
+    public void turnOff() {
+        isOn = false;
+        System.out.println("RegularBulb is turned OFF.");
+    }
+}
+//
+
+// BulbOperate.java
+public class BulbOperate {
+    public static void main(String s[]) {
+        // Create an array of Switchable objects to hold different types of bulbs
+        Switchable switchables[] = new Switchable[3];
+
+        // Create instances of SmartBulb, DimmableBulb, and RegularBulb
+        SmartBulb sb = new SmartBulb(); // SmartBulb implements Switchable, Adjustable, and Connectable
+        DimmableBulb db = new DimmableBulb(); // DimmableBulb implements Switchable and Adjustable
+        RegularBulb rb = new RegularBulb(); // RegularBulb implements only Switchable
+
+        // Populate the array with the bulb instances
+        switchables[0] = sb; // Add SmartBulb to the array
+        switchables[1] = db; // Add DimmableBulb to the array
+        switchables[2] = rb; // Add RegularBulb to the array
+
+        // Loop through the array and turn each bulb on and off
+        for (int i = 0; i < switchables.length; i++) {
+            switchables[i].turnOn(); // Turn on the bulb
+            switchables[i].turnOff(); // Turn off the bulb
+        }
+
+        // Increase brightness of the SmartBulb directly
+        sb.increase(); // Calls the increase() method of SmartBulb
+
+        // Decrease brightness of the DimmableBulb by casting to Adjustable
+        ((Adjustable) switchables[1]).decrease(); // Cast switchables[1] (DimmableBulb) to Adjustable and call decrease()
+
+        // Connect the SmartBulb to the network by casting to Connectable
+        ((Connectable) switchables[0]).connect(); // Cast switchables[0] (SmartBulb) to Connectable and call connect()
+    }
+}
+//
+
+//
+interface Volume {
+    void increaseVol();
+    void decreaseVol();
+}
+
+interface Switchable {
+    void turnOn();
+    void turnOff();
+}
+
+interface Connectable {
+    void connect();
+    void disconnect();
+}
+
+interface Adjustable {
+    void increaseSpeed();
+    void decreaseSpeed();
+}
+
+class SmartSpeaker implements Switchable, Connectable, Volume {
+    @Override
+    public void turnOn() {
+        System.out.println("SmartSpeaker is turned on.");
+    }
+
+    @Override
+    public void turnOff() {
+        System.out.println("SmartSpeaker is turned off.");
+    }
+
+    @Override
+    public void connect() {
+        System.out.println("SmartSpeaker is connected.");
+    }
+
+    @Override
+    public void disconnect() {
+        System.out.println("SmartSpeaker is disconnected.");
+    }
+
+    @Override
+    public void increaseVol() {
+        System.out.println("SmartSpeaker volume increased.");
+    }
+
+    @Override
+    public void decreaseVol() {
+        System.out.println("SmartSpeaker volume decreased.");
+    }
+}
+
+class Fan implements Switchable, Adjustable {
+    @Override
+    public void turnOn() {
+        System.out.println("Fan is turned on.");
+    }
+
+    @Override
+    public void turnOff() {
+        System.out.println("Fan is turned off.");
+    }
+
+    @Override
+    public void increaseSpeed() {
+        System.out.println("Fan speed increased.");
+    }
+
+    @Override
+    public void decreaseSpeed() {
+        System.out.println("Fan speed decreased.");
+    }
+}
+
+class SmartTV implements Switchable, Connectable, Volume, Adjustable {
+    @Override
+    public void turnOn() {
+        System.out.println("SmartTV is turned on.");
+    }
+
+    @Override
+    public void turnOff() {
+        System.out.println("SmartTV is turned off.");
+    }
+
+    @Override
+    public void connect() {
+        System.out.println("SmartTV is connected to Wi-Fi.");
+    }
+
+    @Override
+    public void disconnect() {
+        System.out.println("SmartTV is disconnected from Wi-Fi.");
+    }
+
+    @Override
+    public void increaseVol() {
+        System.out.println("SmartTV volume increased.");
+    }
+
+    @Override
+    public void decreaseVol() {
+        System.out.println("SmartTV volume decreased.");
+    }
+
+    @Override
+    public void increaseSpeed() {
+        System.out.println("SmartTV channel surfing speed increased.");
+    }
+
+    @Override
+    public void decreaseSpeed() {
+        System.out.println("SmartTV channel surfing speed decreased.");
+    }
+}
+
+public class Electronics {
+    public static void main(String[] args) {
+
+        // Demonstrate polymorphism with Switchable interface
+        Switchable speaker1 = new SmartSpeaker();
+        Switchable fan1 = new Fan();
+        Switchable tv1 = new SmartTV();
+
+        speaker1.turnOn();
+        speaker1.turnOff();
+        fan1.turnOn();
+        fan1.turnOff();
+        tv1.turnOn();
+        tv1.turnOff();
+
+        // Multiple inheritance through interfaces for SmartSpeaker
+        SmartSpeaker smartSpeaker = new SmartSpeaker();
+        smartSpeaker.turnOn();
+        smartSpeaker.connect();
+        smartSpeaker.increaseVol();
+        smartSpeaker.decreaseVol();
+        smartSpeaker.disconnect();
+        smartSpeaker.turnOff();
+
+        // Multiple inheritance through interfaces for Fan
+        Fan fan = new Fan();
+        fan.turnOn();
+        fan.increaseSpeed();
+        fan.decreaseSpeed();
+        fan.turnOff();
+
+        // Multiple inheritance through interfaces for SmartTV
+        SmartTV smartTV = new SmartTV();
+        smartTV.turnOn();
+        smartTV.connect();
+        smartTV.increaseVol();
+        smartTV.increaseSpeed();
+        smartTV.decreaseSpeed();
+        smartTV.decreaseVol();
+        smartTV.disconnect();
+        smartTV.turnOff();
+    }
+}
+//
