@@ -1,0 +1,352 @@
+mkdir my_arraylist_proj
+mkdir -p my_arraylist_proj/src
+mkdir -p my_arraylist_proj/classes
+mkdir -p my_arraylist_proj/test
+cd my_arraylist_proj
+touch /home/project/my_arraylist_proj/src/Task.java
+
+// Task.java
+public class Task {
+    public static int HIGH = 3;
+    public static int MEDIUM = 2;
+    public static int LOW = 1;
+
+    public static String COMPLETED = "Completed";
+    public static String IN_PROGRESS = "In Progress";
+    public static String NEW = "New";
+
+    private String taskName;
+    private int priority = LOW;
+    private String status = NEW;
+
+    public Task(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public Task(String taskName, int priority) {
+        this.taskName = taskName;
+        this.priority = priority;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public String getStatus() {
+        return this.status;
+    }
+
+    public int getPriority() {
+        return this.priority;
+    }
+
+    public String toString() {
+        return taskName.concat(" ").concat((priority+"")).concat(" ").concat(status);
+    }
+}
+
+javac -d classes src/Task.java
+export CLASSPATH=$CLASSPATH:/home/project/my_arraylist_proj/classes
+touch /home/project/my_arraylist_proj/src/ArrayListExample.java
+//
+
+// ArrayListExample.java
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+public class ArrayListExample {
+    public static void main(String s[]) {
+        try {
+            // Create a Scanner object to read user input
+            Scanner scanner = new Scanner(System.in);
+            // Create an ArrayList to store Task objects (to-do list)
+            ArrayList<Task> todoList = new ArrayList<Task>();
+
+            // Infinite loop to keep the program running until the user chooses to exit
+            while (true) {
+                // Display the menu options to the user
+                System.out.println(
+                    "Press 1 to add a task, " +
+                    "\n2 to view all the tasks " +
+                    "\n3 to change status of tasks " +
+                    "\n4 to delete a task " +
+                    "\n5 to sort the list based on priority " +
+                    "\nAny other key to exit");
+
+                // Read the user's choice
+                String userAction = scanner.nextLine();
+
+                // Option 1: Add a task to the to-do list
+                if (userAction.equals("1")) {
+                    // Prompt the user to enter a task description
+                    System.out.println("Enter the task ");
+                    String taskStr = scanner.nextLine();
+
+                    // Prompt the user to enter the priority of the task
+                    System.out.println("Enter Priority - 1 Low, 2 Medium, 3 High ");
+                    int priority = Integer.parseInt(scanner.nextLine());
+
+                    // Validate the priority input (default to 1 if invalid)
+                    priority = priority > 3 ? 1 : priority;
+
+                    // Create a new Task object and add it to the to-do list
+                    todoList.add(new Task(taskStr, priority));
+                    System.out.println("The task has been added to the list");
+
+                }
+                // Option 2: View all tasks in the to-do list
+                else if (userAction.equals("2")) {
+                    // Use forEach to print each task in the to-do list
+                    todoList.forEach(task -> System.out.println(task));
+                }
+                // Option 3: Change the status of a task
+                else if (userAction.equals("3")) {
+                    // Prompt the user to enter the index of the task to update
+                    System.out.println("Enter the index of the status you want to change ");
+                    int chgIdx = Integer.parseInt(scanner.nextLine());
+
+                    // Check if the index is valid
+                    if (chgIdx > (todoList.size() - 1)) {
+                        System.out.println("There is no such index position in the list");
+                    } else {
+                        // Prompt the user to enter the new status for the task
+                        System.out.println("Enter the new status for the task P for 'In Progress' or C for 'Completed'");
+                        String updatedStatus = scanner.nextLine();
+
+                        // Update the task status based on user input
+                        if (updatedStatus.equalsIgnoreCase("P")) {
+                            todoList.get(chgIdx).setStatus(Task.IN_PROGRESS);
+                        } else if (updatedStatus.equalsIgnoreCase("C")) {
+                            todoList.get(chgIdx).setStatus(Task.COMPLETED);
+                        }
+                    }
+                    System.out.println("The task has been changed in the list");
+                }
+                // Option 4: Delete a task
+                else if (userAction.equals("4")) {
+                    // Prompt the user to enter the index of the task to delete
+                    System.out.println("Enter the index of the status you want to delete ");
+                    int rmvIdx = Integer.parseInt(scanner.nextLine());
+
+                    // Check if the index is valid
+                    if (rmvIdx > (todoList.size() - 1)) {
+                        System.out.println("There is no such index position in the list");
+                    } else {
+                        todoList.remove(rmvIdx);
+                        System.out.println("The task has been removed from the list");
+                    }
+                }
+                // Option 5: Sort tasks by priority
+                else if (userAction.equals("5")) {
+                    // Sort the ArrayList by age using a Comparator
+                    Collections.sort(todoList, new Comparator<Task>() {
+                		@Override
+                		public int compare(Task t1, Task t2) {
+                			return Integer.compare(t2.getPriority(), t1.getPriority());
+                		}
+                    });
+                    System.out.println("Tasks sorted by priority (High to Low):");
+                    todoList.forEach(task -> System.out.println(task));
+                }
+                // Exit the program if the user enters any other key
+                else {
+                    break;
+                }
+            }
+        } catch (NumberFormatException nfe) {
+            // Handle invalid number input (e.g., non-integer input for priority or index)
+            System.out.println("Invalid input. Please enter a valid number.");
+        }
+    }
+}
+
+javac -d classes src/ArrayListExample.java
+java ArrayListExample
+//
+
+// Student.java
+public class Student {
+    private String name;
+    private int age;
+    private String major;
+
+    // Constructor
+    public Student(String name, int age, String major) {
+        this.name = name;
+        this.age = age;
+        this.major = major;
+    }
+
+    // Getters and Setters
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    // Override toString() to display student details
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Age: " + age + ", Major: " + major;
+    }
+}
+javac -d classes src/Student.java
+//
+
+// StudentManagement.java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Scanner;
+
+public class StudentManagementSystem {
+    public static void main(String[] args) {
+        // Create an ArrayList to store Student objects
+        ArrayList<Student> students = new ArrayList<>();
+
+        // Create a Scanner object to read user input
+        Scanner scanner = new Scanner(System.in);
+
+        // Infinite loop to keep the program running until the user chooses to exit
+        while (true) {
+            // Display the menu options to the user
+            System.out.println("\nMenu:");
+            System.out.println("1. Add a student");
+            System.out.println("2. Update a student");
+            System.out.println("3. Delete a student");
+            System.out.println("4. View all students");
+            System.out.println("5. Sort students by age");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+
+            // Read the user's choice
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+
+            // Option 1: Add a student
+            if (choice == 1) {
+                System.out.print("Enter student name: ");
+                String name = scanner.nextLine();
+
+                System.out.print("Enter student age: ");
+                int age = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+
+                System.out.print("Enter student major: ");
+                String major = scanner.nextLine();
+
+                // Create a new Student object and add it to the list
+                students.add(new Student(name, age, major));
+                System.out.println("Student added successfully!");
+            }
+            // Option 2: Update a student
+            else if (choice == 2) {
+                System.out.print("Enter the index of the student to update: ");
+                int index = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+
+                // Check if the index is valid
+                if (index >= 0 && index < students.size()) {
+                    System.out.print("Enter new name: ");
+                    String name = scanner.nextLine();
+
+                    System.out.print("Enter new age: ");
+                    int age = scanner.nextInt();
+                    scanner.nextLine(); // Consume the newline character
+
+                    System.out.print("Enter new major: ");
+                    String major = scanner.nextLine();
+
+                    // Update the student's details
+                    students.get(index).setName(name);
+                    students.get(index).setAge(age);
+                    students.get(index).setMajor(major);
+                    System.out.println("Student updated successfully!");
+                } else {
+                    System.out.println("Invalid index. No student found at the specified index.");
+                }
+            }
+            // Option 3: Delete a student
+            else if (choice == 3) {
+                System.out.print("Enter the index of the student to delete: ");
+                int index = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+
+                // Check if the index is valid
+                if (index >= 0 && index < students.size()) {
+                    students.remove(index);
+                    System.out.println("Student deleted successfully!");
+                } else {
+                    System.out.println("Invalid index. No student found at the specified index.");
+                }
+            }
+            // Option 4: View all students
+            else if (choice == 4) {
+                if (students.isEmpty()) {
+                    System.out.println("No students found.");
+                } else {
+                    System.out.println("\nList of Students:");
+                    for (int i = 0; i < students.size(); i++) {
+                        System.out.println(i + ". " + students.get(i));
+                    }
+                }
+            }
+            // Option 5: Sort students by age
+            else if (choice == 5) {
+                // Sort the students using a custom Comparator
+                Collections.sort(students, new Comparator<Student>() {
+                    @Override
+                    public int compare(Student s1, Student s2) {
+                        // Sort in ascending order of age
+                        return Integer.compare(s1.getAge(), s2.getAge());
+                    }
+                });
+
+                System.out.println("Students sorted by age (ascending):");
+                for (int i = 0; i < students.size(); i++) {
+                    System.out.println(i + ". " + students.get(i));
+                }
+            }
+            // Option 6: Exit the program
+            else if (choice == 6) {
+                System.out.println("Exiting the program. Goodbye!");
+                break;
+            }
+            // Handle invalid choices
+            else {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        }
+
+        // Close the scanner
+        scanner.close();
+    }
+}
+
+mv src/StudentManagement.java src/StudentManagementSystem.java
+java -cp classes StudentManagementSystem
+//
