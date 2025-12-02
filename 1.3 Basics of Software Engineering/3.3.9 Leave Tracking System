@@ -1,0 +1,123 @@
+// Import necessary collections
+import java.util.ArrayList;
+import java.util.HashMap;
+import java,util.HashSet;
+
+public class Employee {
+// Other fields and methods
+// ...
+
+    private ArrayList<LeaveRequest> leaveHistory = new ArrayList<>();
+
+    public void addLeaveRequest(LeaveRequest request) {
+        leaveHistory.add(request);
+    }
+
+    public ArrayList<LeaveRequest> getLeaveHistory() {
+        return leaveHistory;
+    }
+
+    public LeaveRequest getLeaveRequestById(int requestId) {
+        for (LeaveRequest request : leaveHistory) {
+            if (request.getRequestId() == requestId) {
+                return request;
+            }
+        }
+        return null; // Request not found
+    }
+}
+//
+
+//
+public class LeaveTrackingSystem {
+    // Other fields and methods
+    // ...
+
+    private HashSet<String> departmentsWithPendingRequests = new HashSet<>();
+
+    public void updateDepartmentsWithPendingRequests() {
+        departmentsWithPendingRequests.clear();
+
+        for (LeaveRequest request : allLeaveRequests) {
+            if (request.getStatus().equals("Pending")) {
+                departmentsWithPendingRequests.add(
+                    request.getEmployee().getDepartment());
+            }
+        }
+    }
+
+    public boolean hasPendingRequests(String department) {
+        return departmentsWithPendingRequests.contains(department);
+    }
+}
+//
+
+//
+public class LeaveTrackingSystem{
+    // Other fields and methods
+    // ...
+
+    private HashMap<Integer, Employee> employeeDirectory = new HashMap<>();
+
+    public void addEmployee(Employee employee) {
+        employeeDirectory.put(employee.getEmployeeId(), employee);
+    }
+
+    public Employee getEmployeeById(int employeeId) {
+        return employeeDirectory.get(employeeId);
+    }
+
+    public boolean removeEmployee(int employeeId) {
+        if (employeeDirectory.containsKey(employeeId) {
+            employeeDirectory.remove(employeeId);
+            return true;
+        }
+        return false;
+
+    }
+}
+//
+
+//
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class LeaveApprovalSystem {
+    private Queue<LeaveRequest> pendingRequests = new LinkedList<>();
+
+    public void addPendingRequest(LeaveRequest request) {
+        pendingRequests.add(request);
+    }
+
+    public LeaveRequest getNextPendingRequest() {
+        return pendingRequests.poll(); // Retrieves and removes the head
+    }
+
+    public int getPendingRequestCount() {
+        return pendingRequests.size();
+    }
+
+    public boolean hasPendingRequests() {
+        reutrn !pendingRequests.isEmpty();
+    }
+}
+//
+
+//
+public class LeaveTrackingSystem {
+    // Maps for quick lookup
+    private HashMap<Integer, Employee> employeeById = new HashMap <>();
+    private HashMap<Integer, LeaveRequest> requestById = new HashMap<>();
+    
+    // Lists for ordered access
+    private ArrayList<LeaveRequest> allRequests = new ArrayList<>();
+
+    // Sets for unique collections
+    private HashSet<String> leaveTypes = new HashSet<>();
+
+    // Queues for processing
+    private Queue<LeaveRequest< pendingApprovals = new LinkedList<>();
+    
+    // Methods to manage these collections
+    // ...
+}
